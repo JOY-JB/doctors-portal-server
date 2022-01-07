@@ -12,7 +12,6 @@ app.use(express.json())
 
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-// const serviceAccount = require("./doctors-portal-firebase-adminsdk.json");
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
@@ -48,7 +47,7 @@ async function run() {
 
         app.get('/appointments', async (req, res) => {
             const email = req.query.email;
-            const date = new Date(req.query.date).toLocaleDateString();
+            const date = req.query.date;
             const query = { email, date };
             const cursor = appointmentCollection.find(query);
             const result = await cursor.toArray();
